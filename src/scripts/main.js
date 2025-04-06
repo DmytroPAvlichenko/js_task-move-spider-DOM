@@ -5,17 +5,18 @@ const wall = document.querySelector('.wall');
 
 document.addEventListener('click', (e) => {
   const wallRect = wall.getBoundingClientRect();
+  const wallInsideLeft = wallRect.left + wall.clientLeft;
+  const wallInsideTop = wallRect.top + wall.clientTop;
 
-  let clickTop = e.clientY - wallRect.top;
-  let clickLeft = e.clientX - wallRect.left;
+  const spiderWidth = spider.offsetWidth;
+  const spiderHeight = spider.offsetHeight;
 
-  clickLeft = Math.max(0, clickLeft);
-  clickTop = Math.max(0, clickTop);
+  let clickLeft = e.clientX - wallInsideLeft - spiderWidth / 2;
+  let clickTop = e.clientY - wallInsideTop - spiderHeight / 2;
 
-  // Перевірка меж для правої та нижньої сторін
-  clickLeft = Math.min(350, clickLeft);
-  clickTop = Math.min(350, clickTop);
+  clickLeft = Math.max(0, Math.min(clickLeft, wall.clientWidth - spiderWidth));
+  clickTop = Math.max(0, Math.min(clickTop, wall.clientHeight - spiderHeight));
 
-  spider.style.top = `${clickTop}px`;
   spider.style.left = `${clickLeft}px`;
+  spider.style.top = `${clickTop}px`;
 });
